@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Utilitários</title>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<div class="container">
+<header class="site-header">
+<div class="toolbar">
+<div class="status-chip">DROGARIA DO POVO®</div>
+<button aria-label="Alternar tema" class="theme-toggle" id="themeToggle" type="button">
+<span class="theme-icon" id="themeIcon">🌙</span>
+<span id="themeLabel">Modo escuro</span>
+</button>
+</div>
+</header>
+<div aria-label="Seções do sistema" class="tabs" role="tablist">
+<button aria-controls="tab-orcamento" aria-selected="true" class="tab-btn active" data-tab="orcamento" id="tab-btn-orcamento" role="tab" type="button">Orçamento</button>
+<button aria-controls="tab-caixa" aria-selected="false" class="tab-btn" data-tab="caixa" id="tab-btn-caixa" role="tab" type="button">Fechamento de caixa</button>
+<button aria-controls="tab-comanda" aria-selected="false" class="tab-btn" data-tab="comanda" id="tab-btn-comanda" role="tab" type="button">Comanda de entrega</button>
+</div>
+<section aria-labelledby="tab-btn-orcamento" class="tab-panel active" id="tab-orcamento" role="tabpanel">
+<div class="grid">
+<section class="card">
+<div class="topbar">
+<div>
+<h1>Gerador de orçamento em texto</h1>
+</div>
+</div>
+<div class="field">
+<label for="protocol">Protocolo</label>
+<input id="protocol" placeholder="{{protocol}}" type="text" value="{{protocol}}"/>
+</div>
+<div class="field">
+<label for="bulkInput">Entrada rápida</label>
+<textarea id="bulkInput" placeholder="______________x, ______, R$_______ (faz R$____________ opcional)
+(quantidade)   (nome)     (valor)            (valor final)"></textarea>
+</div>
+<div class="field">
+<label for="extraDiscount">Desconto extra (opcional)</label>
+<input id="extraDiscount" placeholder="" type="text" value=""/>
+</div>
+<div class="actions">
+<button class="btn-light" id="clearBtn" type="button">Limpar</button>
+</div>
+</section>
+<section class="preview-card">
+<div class="preview-head">
+<div>
+<h2>Pré-visualização</h2>
+</div>
+<div class="total-chip" id="totalChip">Total R$0,00</div>
+</div>
+<pre id="previewText"></pre>
+<div class="copy-wrap">
+<button id="copyBtn" type="button">Copiar Orçamento</button>
+</div>
+</section>
+</div>
+</section>
+<section aria-labelledby="tab-btn-caixa" class="tab-panel" hidden="" id="tab-caixa" role="tabpanel">
+<div class="export-wrap">
+<button class="btn-export" id="exportCaixaBtn" type="button">Salvar comprovante caixa</button>
+</div>
+<div class="grid-single" id="caixaCaptureArea">
+<section class="card">
+<div class="topbar">
+<div>
+<h1>Fechamento de caixa</h1>
+</div>
+<span class="badge">DROGARIA DO POVO</span>
+</div>
+<div class="section-box">
+<div class="grid-3">
+<div class="field">
+<label for="caixaData">Data</label>
+<input id="caixaData" type="date"/>
+</div>
+<div class="field">
+<label for="caixaHora">Hora</label>
+<input id="caixaHora" type="time"/>
+</div>
+<div class="field">
+<label for="caixaOperador">Operador</label>
+<input id="caixaOperador" placeholder="" type="text"/>
+</div>
+</div>
+</div>
+<div class="section-box">
+<h3>Vendas (registradas no sistema)</h3>
+<div class="grid-4">
+<div class="field">
+<label for="vendaDinheiro">Dinheiro</label>
+<input id="vendaDinheiro" type="text" value=""/>
+</div>
+<div class="field">
+<label for="vendaCartao">Cartão</label>
+<input id="vendaCartao" type="text" value=""/>
+</div>
+<div class="field">
+<label for="vendaCrediario">Crediário</label>
+<input id="vendaCrediario" type="text" value=""/>
+</div>
+<div class="field">
+<label for="vendaPix">PIX</label>
+<input id="vendaPix" type="text" value=""/>
+</div>
+</div>
+</div>
+<div class="section-box">
+<div class="section-head">
+<div>
+<h3>Entradas - Manual</h3>
+<div class="helper-text">Troco inicial é obrigatório. Declare também qualquer entrada que não faça parte do sistema.</div>
+</div>
+<button class="btn-dark" id="addEntradaManualBtn" type="button">Adicionar Manual</button>
+</div>
+<div class="grid-4">
+<div class="field">
+<label for="manualTrocoInicial">Troco inicial</label>
+<input id="manualTrocoInicial" required="" type="text" value=""/>
+</div>
+<div class="field">
+<label for="manualDinheiro">Dinheiro</label>
+<input id="manualDinheiro" readonly="" type="text" value="0,00"/>
+</div>
+<div class="field">
+<label for="manualCartao">Cartão</label>
+<input id="manualCartao" readonly="" type="text" value="0,00"/>
+</div>
+<div class="field">
+<label for="manualPix">PIX</label>
+<input id="manualPix" readonly="" type="text" value="0,00"/>
+</div>
+</div>
+<div class="item-list" id="entradaManualList"></div>
+</div>
+<div class="section-box">
+<div class="section-head">
+<div>
+<h3>Saídas</h3>
+<div class="helper-text">Cada saída precisa ter nome e valor. Declare aqui o Caixa final (Troco final) e valor em Cofre.</div>
+</div>
+<button class="btn-dark" id="addSaidaBtn" type="button">Adicionar Saída</button>
+</div>
+<div class="item-list" id="saidaList"></div>
+<div class="grid-3" style="margin-top: 16px;">
+<div class="field">
+<label for="saidaDinheiro">Saídas em dinheiro</label>
+<input id="saidaDinheiro" readonly="" type="text" value="0,00"/>
+</div>
+<div class="field">
+<label for="caixaFinalDeclarado">Caixa final</label>
+<input id="caixaFinalDeclarado" type="text" value=""/>
+</div>
+<div class="field">
+<label for="cofre">Cofre</label>
+<input id="cofre" type="text" value=""/>
+</div>
+</div>
+</div>
+<div class="actions">
+<button class="btn-light" id="caixaClearBtn" type="button">Limpar caixa</button>
+</div>
+</section>
+<section class="card">
+<div class="section-head">
+<div>
+<h2>Resumo do caixa</h2>
+</div>
+<div class="espelho-box">
+<div class="espelho-row">
+<span class="subtitle" style="margin:0;">DATA</span>
+<strong id="espelhoData">--/--/----</strong>
+</div>
+<div class="espelho-row">
+<span class="subtitle" style="margin:0;">HORA</span>
+<strong id="espelhoHora">--:--</strong>
+</div>
+<div class="espelho-row">
+<span class="subtitle" style="margin:0;">OPERADOR</span>
+<strong id="espelhoOperador">---</strong>
+</div>
+</div>
+</div>
+<div class="summary-grid">
+<div class="summary-item">
+<div class="label">Total de vendas no sistema</div>
+<div class="value value-green" id="resTotalVendas">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Total manual</div>
+<div class="value value-blue" id="resTotalManual">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Dinheiro em caixa</div>
+<div class="value" id="resDinheiroEmCaixa">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Caixa final</div>
+<div class="value big-value" id="resCaixaFinal">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Entradas em dinheiro</div>
+<div class="value value-green" id="resEntradasDinheiro">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Saídas em dinheiro</div>
+<div class="value value-red" id="resSaidasDinheiro">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Diferença de dinheiro em caixa</div>
+<div class="value value-white" id="resDinheiroResumo">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Todas as entradas</div>
+<div class="value value-gold" id="resTodasEntradas">R$ 0,00</div>
+</div>
+<div class="summary-item">
+<div class="label">Cofre</div>
+<div class="value" id="resCofre">R$ 0,00</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+<section aria-labelledby="tab-btn-comanda" class="tab-panel" hidden="" id="tab-comanda" role="tabpanel">
+<div class="comanda-scope">
+<div class="wrap">
+<section class="painel">
+<div class="topbar">
+<div>
+<h1>Comanda de entrega</h1>
+</div>
+</div>
+<div class="comanda-box">
+<label for="entradaOrcamento">Orçamento do WhatsApp</label>
+<textarea id="entradaOrcamento" spellcheck="false"></textarea>
+</div>
+<div class="comanda-box">
+<label for="entradaCliente">Nome e telefone do CRM</label>
+<textarea id="entradaCliente" spellcheck="false"></textarea>
+</div>
+<div class="comanda-box">
+<label for="entradaEndereco">Endereço já formatado</label>
+<textarea id="entradaEndereco" spellcheck="false"></textarea>
+</div>
+<div class="comanda-box">
+<label for="entradaPagamento">Pagamento</label>
+<input id="entradaPagamento" maxlength="30" placeholder="Ex.: PIX, DINHEIRO, CARTÃO" type="text"/>
+</div>
+<div class="acoes">
+<button id="btnImprimir" type="button">Imprimir</button>
+<button class="secundario" id="btnLimpar" type="button">Limpar</button>
+</div>
+</section>
+<section class="bloco-comanda">
+<div class="preview-head">
+<div>
+<h2>Pré-visualização</h2>
+</div>
+</div>
+<div class="comanda-frame">
+<div class="comanda">
+<div class="linha linha-branca esquerda linha-1">
+<span class="pedido-label">PEDIDO:</span>
+<div class="pedido-editavel" id="pedido"></div>
+</div>
+<div class="linha linha-preta linha-2">CLIENTE</div>
+<div class="linha linha-branca centro linha-3">
+<div class="cliente-editavel" id="cliente"></div>
+</div>
+<div class="linha linha-preta linha-4">ENDEREÇO</div>
+<div class="linha linha-branca esquerda mono linha-5">
+<div class="endereco-editavel" id="endereco"></div>
+</div>
+<div class="linha linha-preta linha-6">VALOR</div>
+<div class="linha linha-branca centro linha-7">
+<div class="valor-editavel" id="valor">R$ </div>
+</div>
+<div class="linha linha-preta linha-8">PAGAMENTO</div>
+<div class="linha linha-branca centro linha-9">
+<div class="pagamento-box">
+<div class="pagamento-editavel" id="pagamento"></div>
+<span class="checkbox-fixo">☐</span>
+</div>
+</div>
+<div class="linha linha-branca esquerda linha-10" id="linhaItens">
+<div class="itens" id="itens"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script><script src="js/core-dom.js"></script><script src="js/theme.js"></script><script src="js/budget.js"></script><script src="js/caixa.js"></script><script src="js/caixa-watchers.js"></script><script src="js/comanda.js"></script><script src="js/listeners.js"></script></body>
+</html>
