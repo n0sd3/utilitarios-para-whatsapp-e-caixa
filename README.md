@@ -1,4 +1,3 @@
-```
 markdown
 # 🏥 Sistema de Farmácia (Orçamento + Caixa + Comanda)
 
@@ -188,12 +187,10 @@ Pode ser hospedado em:
 
 ## 👨‍💻 Autor
 
-Desenvolvido para uso prático em balcão de farmácia.
+Edson Cleubert.
 
 ---
 
 ## 📄 Licença
 
 Uso livre para projetos pessoais e comerciais.
-
-```
