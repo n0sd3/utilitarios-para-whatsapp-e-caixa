@@ -101,7 +101,11 @@ index.html
 Ou usar servidor local:
 
 ```bash
-python3 -m http.server 3000
+python3 -m http.server 5050 #Se fechar o terminal o site cai
+
+nohup python3 -m http.server 5050 & #Faz rodar em background
+
+pkill -f "http.server 5050" #Derruba o servidor se preciso
 ```
 
 ---
