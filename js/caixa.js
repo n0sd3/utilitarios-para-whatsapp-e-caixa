@@ -57,6 +57,9 @@ function createId() {
       });
 
       entradaManualList.querySelectorAll("[data-entrada-id]").forEach((el) => {
+        if (el.dataset.entradaField === "valor") {
+          initializeMoneyInput(el);
+        }
         el.addEventListener("input", handleEntradaManualChange);
         el.addEventListener("change", handleEntradaManualChange);
       });
@@ -96,6 +99,9 @@ function createId() {
       });
 
       saidaList.querySelectorAll("[data-saida-id]").forEach((el) => {
+        if (el.dataset.saidaField === "valor") {
+          initializeMoneyInput(el);
+        }
         el.addEventListener("input", handleSaidaChange);
         el.addEventListener("change", handleSaidaChange);
       });
@@ -112,7 +118,13 @@ function createId() {
     function handleEntradaManualChange(event) {
       const id = event.target.dataset.entradaId;
       const field = event.target.dataset.entradaField;
-      const value = event.target.value;
+      const value = field === "valor"
+        ? formatDigitsAsMoneyInput(event.target.value)
+        : event.target.value;
+
+      if (field === "valor" && event.target.value !== value) {
+        event.target.value = value;
+      }
 
       entradaManualItems = entradaManualItems.map((item) => {
         if (item.id !== id) return item;
@@ -125,7 +137,13 @@ function createId() {
     function handleSaidaChange(event) {
       const id = event.target.dataset.saidaId;
       const field = event.target.dataset.saidaField;
-      const value = event.target.value;
+      const value = field === "valor"
+        ? formatDigitsAsMoneyInput(event.target.value)
+        : event.target.value;
+
+      if (field === "valor" && event.target.value !== value) {
+        event.target.value = value;
+      }
 
       saidaItems = saidaItems.map((item) => {
         if (item.id !== id) return item;
