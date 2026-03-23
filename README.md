@@ -10,7 +10,7 @@ Sistema web completo para uso em balcão de farmácia, com foco em:
 ## 🚀 Funcionalidades
 
 ### 💰 Orçamento inteligente
-- Interpreta texto livre (ex: `2x dipirona de 10 faz 7`)
+- Interpreta texto livre (ex: `2x dipirona, R$10 faz R$7`)
 - Detecta:
   - quantidade
   - preço original
