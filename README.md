@@ -1,4 +1,3 @@
-markdown
 # 🏥 Sistema de Farmácia (Orçamento + Caixa + Comanda)
 
 Sistema web completo para uso em balcão de farmácia, com foco em:
