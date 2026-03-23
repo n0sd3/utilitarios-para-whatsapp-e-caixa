@@ -113,8 +113,9 @@ python3 -m http.server 3000
 Digite algo como:
 
 ```
-2x dipirona de 10 faz 7
-1x nimesulida 15
+2x, dipirona, de R$10 faz R$7
+nimesulida, R$15
+feijão com batata, R$999 R$998
 ```
 
 Resultado:
@@ -153,34 +154,12 @@ O sistema calcula automaticamente:
 
 ---
 
-## 🔧 Melhorias futuras
-
-* [ ] salvar histórico de caixa
-* [ ] salvar histórico de orçamentos
-* [ ] exportação PDF
-* [ ] funcionamento offline (PWA)
-* [ ] integração com banco de dados
-* [ ] sistema multiusuário
-
----
-
 ## 🧪 Observações técnicas
 
 * Parser de orçamento tolera texto livre
 * Valores priorizam `R$` quando presentes
-* Impressão usa layout otimizado para bobina térmica
+* Impressão usa layout otimizado para bobina térmica 80mm (8cm)
 * Sistema modularizado para facilitar manutenção
-
----
-
-## 📦 Deploy
-
-Pode ser hospedado em:
-
-* GitHub Pages
-* Cloudflare Pages
-* VPS simples com Nginx
-* Docker (futuro)
 
 ---
 
