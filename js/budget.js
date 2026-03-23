@@ -34,6 +34,18 @@ function parseBRL(value) {
       });
     }
 
+    function formatDigitsAsMoneyInput(value) {
+      const digits = String(value || "").replace(/\D/g, "");
+      if (!digits) return "";
+
+      const cents = digits.padStart(3, "0");
+      const integerPart = cents.slice(0, -2).replace(/^0+(?=\d)/, "") || "0";
+      const decimalPart = cents.slice(-2);
+      const groupedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+      return `${groupedInteger},${decimalPart}`;
+    }
+
     function normalizeBudgetLine(text) {
       return String(text || "")
         .replace(/[–—]/g, "-")

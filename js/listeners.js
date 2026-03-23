@@ -46,9 +46,41 @@ function initializeThemeToggle() {
 }
 
 function initializeOrcamento() {
+  extraDiscountInput.addEventListener("keydown", (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    const allowedKeys = [
+      "Backspace",
+      "Delete",
+      "Tab",
+      "Enter",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End"
+    ];
+
+    if (allowedKeys.includes(event.key)) return;
+    if (/^\d$/.test(event.key)) return;
+
+    event.preventDefault();
+  });
+
   protocolInput.addEventListener("input", updateOrcamentoUI);
   bulkInput.addEventListener("input", updateOrcamentoUI);
-  extraDiscountInput.addEventListener("input", updateOrcamentoUI);
+  extraDiscountInput.addEventListener("input", (event) => {
+    const formattedValue = formatDigitsAsMoneyInput(event.target.value);
+    event.target.value = formattedValue;
+
+    const caretPosition = formattedValue.length;
+    if (document.activeElement === event.target && typeof event.target.setSelectionRange === "function") {
+      event.target.setSelectionRange(caretPosition, caretPosition);
+    }
+
+    updateOrcamentoUI();
+  });
 
   clearBtn.addEventListener("click", () => {
     protocolInput.value = "{{protocol}}";
